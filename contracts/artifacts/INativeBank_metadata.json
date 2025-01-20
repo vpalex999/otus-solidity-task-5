@@ -1,0 +1,193 @@
+{
+	"compiler": {
+		"version": "0.8.28+commit.7893614a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					}
+				],
+				"name": "WithdrawalAmountExceedsBalance",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "WithdrawalAmountZero",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Withdrawal",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "balanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Интерфейс для контракта-банка нативной валюты, предоставляющий основные банковские функции.",
+			"errors": {
+				"WithdrawalAmountExceedsBalance(address,uint256,uint256)": [
+					{
+						"details": "Генерируется, когда сумма снятия превышает баланс счёта.",
+						"params": {
+							"account": "Адрес аккаунта, который пытался снять средства.",
+							"amount": "Сумма, которую пытались снять.",
+							"balance": "Текущий баланс аккаунта."
+						}
+					}
+				],
+				"WithdrawalAmountZero(address)": [
+					{
+						"details": "Генерируется, когда пытаются снять нулевую сумму.",
+						"params": {
+							"account": "Адрес аккаунта, который пытался снять средства."
+						}
+					}
+				]
+			},
+			"events": {
+				"Deposit(address,uint256)": {
+					"details": "Генерируется, когда на счёт аккаунта поступает депозит.",
+					"params": {
+						"account": "Адрес аккаунта, на который был сделан депозит.",
+						"amount": "Сумма, которая была внесена."
+					}
+				},
+				"Withdrawal(address,uint256)": {
+					"details": "Генерируется, когда со счёта снимаются средства.",
+					"params": {
+						"account": "Адрес счёта, с которого произошло снятие.",
+						"amount": "Сумма, которая была снята."
+					}
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"balanceOf(address)": {
+					"details": "Возвращает баланс счёта.",
+					"params": {
+						"account": "Адрес счёта."
+					},
+					"returns": {
+						"_0": "Баланс счёта."
+					}
+				},
+				"deposit()": {
+					"details": "Вносит средства на счёт."
+				}
+			},
+			"title": "INativeBank",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/INativeBank.sol": "INativeBank"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/INativeBank.sol": {
+			"keccak256": "0x703089d3b5342caa1cef8190d54351c649c76c9b44123741b8b5a7e13e245ec6",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://7866c5a7f40448cde2254f2506c50c257ebff45d4ed8f4d24a7e5df2dc97e3b3",
+				"dweb:/ipfs/QmSKARdaZ1M1bA3iQ5qWpXcNtbivCgBvyXLRcBLpUoThEX"
+			]
+		}
+	},
+	"version": 1
+}

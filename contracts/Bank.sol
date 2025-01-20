@@ -11,12 +11,13 @@ contract Bank is INativeBank {
     }
 
     function deposit() external payable {
+        require(msg.value > 0, "an attemp to depozit a zero amount.");
         balances[msg.sender] += msg.value;
     }
 
-    function withdraw(uint256 amount) external payable  {
-        balances[msg.sender] = balances[msg.sender] - amount;
-        address payable _to = msg.sender
+    // function withdraw(uint256 amount) external payable  {
+    //     balances[msg.sender] = balances[msg.sender] - amount;
+    //     address payable _to = msg.sender
 
-    }
+    // }
 }
