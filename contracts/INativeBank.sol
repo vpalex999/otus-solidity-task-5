@@ -50,5 +50,5 @@ interface INativeBank {
      * @dev Снимает средства со счёта.
      * @param amount Сумма, которую нужно снять.
      */
-    // function withdraw(uint256 amount) external;
+    function withdraw(uint256 amount) external;
 }

@@ -100,6 +100,19 @@
 				"outputs": [],
 				"stateMutability": "payable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -153,6 +166,12 @@
 				},
 				"deposit()": {
 					"details": "Вносит средства на счёт."
+				},
+				"withdraw(uint256)": {
+					"details": "Снимает средства со счёта.",
+					"params": {
+						"amount": "Сумма, которую нужно снять."
+					}
 				}
 			},
 			"title": "INativeBank",
@@ -181,11 +200,11 @@
 	},
 	"sources": {
 		"contracts/INativeBank.sol": {
-			"keccak256": "0x703089d3b5342caa1cef8190d54351c649c76c9b44123741b8b5a7e13e245ec6",
+			"keccak256": "0x4731264f078b06741754cf1ecb9425d3ae135c2d478837911660a52155ef12ba",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://7866c5a7f40448cde2254f2506c50c257ebff45d4ed8f4d24a7e5df2dc97e3b3",
-				"dweb:/ipfs/QmSKARdaZ1M1bA3iQ5qWpXcNtbivCgBvyXLRcBLpUoThEX"
+				"bzz-raw://3144b426b306631db1483ffe9ff1b341534715403092ff9a255b04e190d85087",
+				"dweb:/ipfs/QmbVUZG4DP2mhg8rhAziN8XzYWdQQtXagck1XszHN79qaS"
 			]
 		}
 	},

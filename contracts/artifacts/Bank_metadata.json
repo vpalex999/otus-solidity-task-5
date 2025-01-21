@@ -100,6 +100,19 @@
 				"outputs": [],
 				"stateMutability": "payable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -152,6 +165,12 @@
 				},
 				"deposit()": {
 					"details": "Вносит средства на счёт."
+				},
+				"withdraw(uint256)": {
+					"details": "Снимает средства со счёта.",
+					"params": {
+						"amount": "Сумма, которую нужно снять."
+					}
 				}
 			},
 			"version": 1
@@ -179,19 +198,19 @@
 	},
 	"sources": {
 		"contracts/Bank.sol": {
-			"keccak256": "0xe79b4c02e8586651e64bae2f0cd23072895463f22dc0430b4736faa1a616458f",
+			"keccak256": "0x75fe5e67b934b58e3ba2f492cc5ff994e1dbbd11001e3ff8b826b7a6e758002b",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://4332d4693f3ef5e6d1c254f181e0e02910ece626078d9865c3540a1c3f1eaf1a",
-				"dweb:/ipfs/Qmc87zAQvmVoYLz63ryuQtFTLWxLP2RZUUCELaA2kA2tks"
+				"bzz-raw://f04317cf4836aef2340151c74b6c7386e887ee20898cabe0bc44c4c553914bb9",
+				"dweb:/ipfs/QmUQueGnBs3JeKVczi1q3hwJA4cWbvzHtTY5onwUi5JEWB"
 			]
 		},
 		"contracts/INativeBank.sol": {
-			"keccak256": "0x703089d3b5342caa1cef8190d54351c649c76c9b44123741b8b5a7e13e245ec6",
+			"keccak256": "0x4731264f078b06741754cf1ecb9425d3ae135c2d478837911660a52155ef12ba",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://7866c5a7f40448cde2254f2506c50c257ebff45d4ed8f4d24a7e5df2dc97e3b3",
-				"dweb:/ipfs/QmSKARdaZ1M1bA3iQ5qWpXcNtbivCgBvyXLRcBLpUoThEX"
+				"bzz-raw://3144b426b306631db1483ffe9ff1b341534715403092ff9a255b04e190d85087",
+				"dweb:/ipfs/QmbVUZG4DP2mhg8rhAziN8XzYWdQQtXagck1XszHN79qaS"
 			]
 		}
 	},

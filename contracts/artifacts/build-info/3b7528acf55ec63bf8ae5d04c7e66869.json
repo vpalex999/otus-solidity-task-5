@@ -1,5 +1,5 @@
 {
-	"id": "ab5679dc26548e61bfbcc0769b372967",
+	"id": "3b7528acf55ec63bf8ae5d04c7e66869",
 	"_format": "hh-sol-build-info-1",
 	"solcVersion": "0.8.28",
 	"solcLongVersion": "0.8.28+commit.7893614a",
@@ -7,7 +7,7 @@
 		"language": "Solidity",
 		"sources": {
 			"contracts/INativeBank.sol": {
-				"content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.28;\n\n/**\n * @title INativeBank\n * @dev Интерфейс для контракта-банка нативной валюты, предоставляющий основные банковские функции.\n */\ninterface INativeBank {\n    /**\n     * @dev Генерируется, когда сумма снятия превышает баланс счёта.\n     * @param account Адрес аккаунта, который пытался снять средства.\n     * @param amount Сумма, которую пытались снять.\n     * @param balance Текущий баланс аккаунта.\n     */\n    error WithdrawalAmountExceedsBalance(address account, uint256 amount, uint256 balance);\n    \n    /**\n     * @dev Генерируется, когда пытаются снять нулевую сумму.\n     * @param account Адрес аккаунта, который пытался снять средства.\n     */\n    error WithdrawalAmountZero(address account);\n\n    /**\n     * @dev Генерируется, когда на счёт аккаунта поступает депозит.\n     * @param account Адрес аккаунта, на который был сделан депозит.\n     * @param amount Сумма, которая была внесена.\n     */\n    event Deposit(address indexed account, uint256 amount);\n    \n    /**\n     * @dev Генерируется, когда со счёта снимаются средства.\n     * @param account Адрес счёта, с которого произошло снятие.\n     * @param amount Сумма, которая была снята.\n     */\n    event Withdrawal(address indexed account, uint256 amount);\n\n    /**\n     * @dev Возвращает баланс счёта.\n     * @param account Адрес счёта.\n     * @return Баланс счёта.\n     */\n    function balanceOf(address account) external view returns(uint256);\n\n    /**\n     * @dev Вносит средства на счёт.\n     */\n    function deposit() external payable;\n    \n    /**\n     * @dev Снимает средства со счёта.\n     * @param amount Сумма, которую нужно снять.\n     */\n    // function withdraw(uint256 amount) external;\n}\n"
+				"content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.28;\n\n/**\n * @title INativeBank\n * @dev Интерфейс для контракта-банка нативной валюты, предоставляющий основные банковские функции.\n */\ninterface INativeBank {\n    /**\n     * @dev Генерируется, когда сумма снятия превышает баланс счёта.\n     * @param account Адрес аккаунта, который пытался снять средства.\n     * @param amount Сумма, которую пытались снять.\n     * @param balance Текущий баланс аккаунта.\n     */\n    error WithdrawalAmountExceedsBalance(address account, uint256 amount, uint256 balance);\n    \n    /**\n     * @dev Генерируется, когда пытаются снять нулевую сумму.\n     * @param account Адрес аккаунта, который пытался снять средства.\n     */\n    error WithdrawalAmountZero(address account);\n\n    /**\n     * @dev Генерируется, когда на счёт аккаунта поступает депозит.\n     * @param account Адрес аккаунта, на который был сделан депозит.\n     * @param amount Сумма, которая была внесена.\n     */\n    event Deposit(address indexed account, uint256 amount);\n    \n    /**\n     * @dev Генерируется, когда со счёта снимаются средства.\n     * @param account Адрес счёта, с которого произошло снятие.\n     * @param amount Сумма, которая была снята.\n     */\n    event Withdrawal(address indexed account, uint256 amount);\n\n    /**\n     * @dev Возвращает баланс счёта.\n     * @param account Адрес счёта.\n     * @return Баланс счёта.\n     */\n    function balanceOf(address account) external view returns(uint256);\n\n    /**\n     * @dev Вносит средства на счёт.\n     */\n    function deposit() external payable;\n    \n    /**\n     * @dev Снимает средства со счёта.\n     * @param amount Сумма, которую нужно снять.\n     */\n    function withdraw(uint256 amount) external;\n}\n"
 			}
 		},
 		"settings": {
@@ -138,6 +138,19 @@
 							"outputs": [],
 							"stateMutability": "payable",
 							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "amount",
+									"type": "uint256"
+								}
+							],
+							"name": "withdraw",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
 						}
 					],
 					"devdoc": {
@@ -191,6 +204,12 @@
 							},
 							"deposit()": {
 								"details": "Вносит средства на счёт."
+							},
+							"withdraw(uint256)": {
+								"details": "Снимает средства со счёта.",
+								"params": {
+									"amount": "Сумма, которую нужно снять."
+								}
 							}
 						},
 						"title": "INativeBank",
@@ -219,10 +238,11 @@
 						"legacyAssembly": null,
 						"methodIdentifiers": {
 							"balanceOf(address)": "70a08231",
-							"deposit()": "d0e30db0"
+							"deposit()": "d0e30db0",
+							"withdraw(uint256)": "2e1a7d4d"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.28+commit.7893614a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"}],\"name\":\"WithdrawalAmountExceedsBalance\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WithdrawalAmountZero\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Deposit\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Withdrawal\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"deposit\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"\\u0418\\u043d\\u0442\\u0435\\u0440\\u0444\\u0435\\u0439\\u0441 \\u0434\\u043b\\u044f \\u043a\\u043e\\u043d\\u0442\\u0440\\u0430\\u043a\\u0442\\u0430-\\u0431\\u0430\\u043d\\u043a\\u0430 \\u043d\\u0430\\u0442\\u0438\\u0432\\u043d\\u043e\\u0439 \\u0432\\u0430\\u043b\\u044e\\u0442\\u044b, \\u043f\\u0440\\u0435\\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043b\\u044f\\u044e\\u0449\\u0438\\u0439 \\u043e\\u0441\\u043d\\u043e\\u0432\\u043d\\u044b\\u0435 \\u0431\\u0430\\u043d\\u043a\\u043e\\u0432\\u0441\\u043a\\u0438\\u0435 \\u0444\\u0443\\u043d\\u043a\\u0446\\u0438\\u0438.\",\"errors\":{\"WithdrawalAmountExceedsBalance(address,uint256,uint256)\":[{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u0441\\u0443\\u043c\\u043c\\u0430 \\u0441\\u043d\\u044f\\u0442\\u0438\\u044f \\u043f\\u0440\\u0435\\u0432\\u044b\\u0448\\u0430\\u0435\\u0442 \\u0431\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u044b\\u0439 \\u043f\\u044b\\u0442\\u0430\\u043b\\u0441\\u044f \\u0441\\u043d\\u044f\\u0442\\u044c \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430.\",\"amount\":\"\\u0421\\u0443\\u043c\\u043c\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u0443\\u044e \\u043f\\u044b\\u0442\\u0430\\u043b\\u0438\\u0441\\u044c \\u0441\\u043d\\u044f\\u0442\\u044c.\",\"balance\":\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0438\\u0439 \\u0431\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430.\"}}],\"WithdrawalAmountZero(address)\":[{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u043f\\u044b\\u0442\\u0430\\u044e\\u0442\\u0441\\u044f \\u0441\\u043d\\u044f\\u0442\\u044c \\u043d\\u0443\\u043b\\u0435\\u0432\\u0443\\u044e \\u0441\\u0443\\u043c\\u043c\\u0443.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u044b\\u0439 \\u043f\\u044b\\u0442\\u0430\\u043b\\u0441\\u044f \\u0441\\u043d\\u044f\\u0442\\u044c \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430.\"}}]},\"events\":{\"Deposit(address,uint256)\":{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u043d\\u0430 \\u0441\\u0447\\u0451\\u0442 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430 \\u043f\\u043e\\u0441\\u0442\\u0443\\u043f\\u0430\\u0435\\u0442 \\u0434\\u0435\\u043f\\u043e\\u0437\\u0438\\u0442.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430, \\u043d\\u0430 \\u043a\\u043e\\u0442\\u043e\\u0440\\u044b\\u0439 \\u0431\\u044b\\u043b \\u0441\\u0434\\u0435\\u043b\\u0430\\u043d \\u0434\\u0435\\u043f\\u043e\\u0437\\u0438\\u0442.\",\"amount\":\"\\u0421\\u0443\\u043c\\u043c\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u0430\\u044f \\u0431\\u044b\\u043b\\u0430 \\u0432\\u043d\\u0435\\u0441\\u0435\\u043d\\u0430.\"}},\"Withdrawal(address,uint256)\":{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u0441\\u043e \\u0441\\u0447\\u0451\\u0442\\u0430 \\u0441\\u043d\\u0438\\u043c\\u0430\\u044e\\u0442\\u0441\\u044f \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430, \\u0441 \\u043a\\u043e\\u0442\\u043e\\u0440\\u043e\\u0433\\u043e \\u043f\\u0440\\u043e\\u0438\\u0437\\u043e\\u0448\\u043b\\u043e \\u0441\\u043d\\u044f\\u0442\\u0438\\u0435.\",\"amount\":\"\\u0421\\u0443\\u043c\\u043c\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u0430\\u044f \\u0431\\u044b\\u043b\\u0430 \\u0441\\u043d\\u044f\\u0442\\u0430.\"}}},\"kind\":\"dev\",\"methods\":{\"balanceOf(address)\":{\"details\":\"\\u0412\\u043e\\u0437\\u0432\\u0440\\u0430\\u0449\\u0430\\u0435\\u0442 \\u0431\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\"},\"returns\":{\"_0\":\"\\u0411\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\"}},\"deposit()\":{\"details\":\"\\u0412\\u043d\\u043e\\u0441\\u0438\\u0442 \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430 \\u043d\\u0430 \\u0441\\u0447\\u0451\\u0442.\"}},\"title\":\"INativeBank\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/INativeBank.sol\":\"INativeBank\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/INativeBank.sol\":{\"keccak256\":\"0x703089d3b5342caa1cef8190d54351c649c76c9b44123741b8b5a7e13e245ec6\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://7866c5a7f40448cde2254f2506c50c257ebff45d4ed8f4d24a7e5df2dc97e3b3\",\"dweb:/ipfs/QmSKARdaZ1M1bA3iQ5qWpXcNtbivCgBvyXLRcBLpUoThEX\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.28+commit.7893614a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"}],\"name\":\"WithdrawalAmountExceedsBalance\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WithdrawalAmountZero\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Deposit\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Withdrawal\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"deposit\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"\\u0418\\u043d\\u0442\\u0435\\u0440\\u0444\\u0435\\u0439\\u0441 \\u0434\\u043b\\u044f \\u043a\\u043e\\u043d\\u0442\\u0440\\u0430\\u043a\\u0442\\u0430-\\u0431\\u0430\\u043d\\u043a\\u0430 \\u043d\\u0430\\u0442\\u0438\\u0432\\u043d\\u043e\\u0439 \\u0432\\u0430\\u043b\\u044e\\u0442\\u044b, \\u043f\\u0440\\u0435\\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043b\\u044f\\u044e\\u0449\\u0438\\u0439 \\u043e\\u0441\\u043d\\u043e\\u0432\\u043d\\u044b\\u0435 \\u0431\\u0430\\u043d\\u043a\\u043e\\u0432\\u0441\\u043a\\u0438\\u0435 \\u0444\\u0443\\u043d\\u043a\\u0446\\u0438\\u0438.\",\"errors\":{\"WithdrawalAmountExceedsBalance(address,uint256,uint256)\":[{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u0441\\u0443\\u043c\\u043c\\u0430 \\u0441\\u043d\\u044f\\u0442\\u0438\\u044f \\u043f\\u0440\\u0435\\u0432\\u044b\\u0448\\u0430\\u0435\\u0442 \\u0431\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u044b\\u0439 \\u043f\\u044b\\u0442\\u0430\\u043b\\u0441\\u044f \\u0441\\u043d\\u044f\\u0442\\u044c \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430.\",\"amount\":\"\\u0421\\u0443\\u043c\\u043c\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u0443\\u044e \\u043f\\u044b\\u0442\\u0430\\u043b\\u0438\\u0441\\u044c \\u0441\\u043d\\u044f\\u0442\\u044c.\",\"balance\":\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0438\\u0439 \\u0431\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430.\"}}],\"WithdrawalAmountZero(address)\":[{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u043f\\u044b\\u0442\\u0430\\u044e\\u0442\\u0441\\u044f \\u0441\\u043d\\u044f\\u0442\\u044c \\u043d\\u0443\\u043b\\u0435\\u0432\\u0443\\u044e \\u0441\\u0443\\u043c\\u043c\\u0443.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u044b\\u0439 \\u043f\\u044b\\u0442\\u0430\\u043b\\u0441\\u044f \\u0441\\u043d\\u044f\\u0442\\u044c \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430.\"}}]},\"events\":{\"Deposit(address,uint256)\":{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u043d\\u0430 \\u0441\\u0447\\u0451\\u0442 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430 \\u043f\\u043e\\u0441\\u0442\\u0443\\u043f\\u0430\\u0435\\u0442 \\u0434\\u0435\\u043f\\u043e\\u0437\\u0438\\u0442.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0430\\u043a\\u043a\\u0430\\u0443\\u043d\\u0442\\u0430, \\u043d\\u0430 \\u043a\\u043e\\u0442\\u043e\\u0440\\u044b\\u0439 \\u0431\\u044b\\u043b \\u0441\\u0434\\u0435\\u043b\\u0430\\u043d \\u0434\\u0435\\u043f\\u043e\\u0437\\u0438\\u0442.\",\"amount\":\"\\u0421\\u0443\\u043c\\u043c\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u0430\\u044f \\u0431\\u044b\\u043b\\u0430 \\u0432\\u043d\\u0435\\u0441\\u0435\\u043d\\u0430.\"}},\"Withdrawal(address,uint256)\":{\"details\":\"\\u0413\\u0435\\u043d\\u0435\\u0440\\u0438\\u0440\\u0443\\u0435\\u0442\\u0441\\u044f, \\u043a\\u043e\\u0433\\u0434\\u0430 \\u0441\\u043e \\u0441\\u0447\\u0451\\u0442\\u0430 \\u0441\\u043d\\u0438\\u043c\\u0430\\u044e\\u0442\\u0441\\u044f \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430, \\u0441 \\u043a\\u043e\\u0442\\u043e\\u0440\\u043e\\u0433\\u043e \\u043f\\u0440\\u043e\\u0438\\u0437\\u043e\\u0448\\u043b\\u043e \\u0441\\u043d\\u044f\\u0442\\u0438\\u0435.\",\"amount\":\"\\u0421\\u0443\\u043c\\u043c\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u0430\\u044f \\u0431\\u044b\\u043b\\u0430 \\u0441\\u043d\\u044f\\u0442\\u0430.\"}}},\"kind\":\"dev\",\"methods\":{\"balanceOf(address)\":{\"details\":\"\\u0412\\u043e\\u0437\\u0432\\u0440\\u0430\\u0449\\u0430\\u0435\\u0442 \\u0431\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\",\"params\":{\"account\":\"\\u0410\\u0434\\u0440\\u0435\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\"},\"returns\":{\"_0\":\"\\u0411\\u0430\\u043b\\u0430\\u043d\\u0441 \\u0441\\u0447\\u0451\\u0442\\u0430.\"}},\"deposit()\":{\"details\":\"\\u0412\\u043d\\u043e\\u0441\\u0438\\u0442 \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430 \\u043d\\u0430 \\u0441\\u0447\\u0451\\u0442.\"},\"withdraw(uint256)\":{\"details\":\"\\u0421\\u043d\\u0438\\u043c\\u0430\\u0435\\u0442 \\u0441\\u0440\\u0435\\u0434\\u0441\\u0442\\u0432\\u0430 \\u0441\\u043e \\u0441\\u0447\\u0451\\u0442\\u0430.\",\"params\":{\"amount\":\"\\u0421\\u0443\\u043c\\u043c\\u0430, \\u043a\\u043e\\u0442\\u043e\\u0440\\u0443\\u044e \\u043d\\u0443\\u0436\\u043d\\u043e \\u0441\\u043d\\u044f\\u0442\\u044c.\"}}},\"title\":\"INativeBank\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/INativeBank.sol\":\"INativeBank\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/INativeBank.sol\":{\"keccak256\":\"0x4731264f078b06741754cf1ecb9425d3ae135c2d478837911660a52155ef12ba\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://3144b426b306631db1483ffe9ff1b341534715403092ff9a255b04e190d85087\",\"dweb:/ipfs/QmbVUZG4DP2mhg8rhAziN8XzYWdQQtXagck1XszHN79qaS\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [],
 						"types": null
@@ -241,10 +261,10 @@
 					"absolutePath": "contracts/INativeBank.sol",
 					"exportedSymbols": {
 						"INativeBank": [
-							43
+							49
 						]
 					},
-					"id": 44,
+					"id": 50,
 					"license": "UNLICENSED",
 					"nodeType": "SourceUnit",
 					"nodes": [
@@ -271,9 +291,9 @@
 								"text": " @title INativeBank\n @dev Интерфейс для контракта-банка нативной валюты, предоставляющий основные банковские функции."
 							},
 							"fullyImplemented": false,
-							"id": 43,
+							"id": 49,
 							"linearizedBaseContracts": [
-								43
+								49
 							],
 							"name": "INativeBank",
 							"nameLocation": "284:11:0",
@@ -673,7 +693,7 @@
 										],
 										"src": "2008:9:0"
 									},
-									"scope": 43,
+									"scope": 49,
 									"src": "1951:67:0",
 									"stateMutability": "view",
 									"virtual": false,
@@ -706,15 +726,76 @@
 										"parameters": [],
 										"src": "2132:0:0"
 									},
-									"scope": 43,
+									"scope": 49,
 									"src": "2097:36:0",
 									"stateMutability": "payable",
 									"virtual": false,
 									"visibility": "external"
+								},
+								{
+									"documentation": {
+										"id": 43,
+										"nodeType": "StructuredDocumentation",
+										"src": "2143:143:0",
+										"text": " @dev Снимает средства со счёта.\n @param amount Сумма, которую нужно снять."
+									},
+									"functionSelector": "2e1a7d4d",
+									"id": 48,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "withdraw",
+									"nameLocation": "2300:8:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 46,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 45,
+												"mutability": "mutable",
+												"name": "amount",
+												"nameLocation": "2317:6:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 48,
+												"src": "2309:14:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 44,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "2309:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "2308:16:0"
+									},
+									"returnParameters": {
+										"id": 47,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "2333:0:0"
+									},
+									"scope": 49,
+									"src": "2291:43:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
 								}
 							],
-							"scope": 44,
-							"src": "274:2065:0",
+							"scope": 50,
+							"src": "274:2062:0",
 							"usedErrors": [
 								11,
 								16
@@ -725,7 +806,7 @@
 							]
 						}
 					],
-					"src": "39:2301:0"
+					"src": "39:2298:0"
 				},
 				"id": 0
 			}
