@@ -24,11 +24,20 @@ contract Bank is INativeBank {
         if(amount == 0){
             revert WithdrawalAmountZero(msg.sender);
         }
+
+
+        uint senderBalance = balances[msg.sender];
+
+        if(amount > senderBalance){
+            revert WithdrawalAmountExceedsBalance(msg.sender, amount, senderBalance);
+        }
+
+        balances[msg.sender] = senderBalance - amount;
         
-        // проверка, что снимаемая сумма меньше или равно балансу!!!
-        balances[msg.sender] -= amount;
-        (bool success, bytes memory data) = address(msg.sender).call{value: amount}("");
+        (bool success, ) = address(msg.sender).call{value: amount}("");
+
         require(success, "Transaction failed");
+
         emit Withdrawal(msg.sender, amount);
     }
 }
