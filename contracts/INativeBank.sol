@@ -7,6 +7,17 @@ pragma solidity 0.8.28;
  */
 interface INativeBank {
     /**
+     * @dev Генерируется, когда не прошла транзакция снятия средств с депозита.
+     * @param account Адрес получателя.
+     * @param amount Сумма, которая была снята.
+     */
+    error WithdrawTransactionFailed(address account, uint256 amount);
+    /**
+     * @dev Генерируется, когда на счёт аккаунта поступает сумма депозита равная 0.
+     * @param account Адрес аккаунта, на который ложится депозит.
+     */
+    error DepositingZeroAmount(address account);
+    /**
      * @dev Генерируется, когда сумма снятия превышает баланс счёта.
      * @param account Адрес аккаунта, который пытался снять средства.
      * @param amount Сумма, которую пытались снять.
