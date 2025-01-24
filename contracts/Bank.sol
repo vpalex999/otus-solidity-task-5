@@ -31,7 +31,7 @@ contract Bank is INativeBank {
         if(amount > senderBalance){
             revert WithdrawalAmountExceedsBalance(msg.sender, amount, senderBalance);
         }
-
+        
         balances[msg.sender] = senderBalance - amount;
         
         (bool success, ) = address(msg.sender).call{value: amount}("");
