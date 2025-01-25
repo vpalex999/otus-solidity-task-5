@@ -11,16 +11,20 @@ contract Bank is INativeBank {
         _;
     }
 
+    function _deposit(address account, uint256 amount) private zeroSenderAddress {
+        if (msg.value == 0) {
+            revert DepositingZeroAmount(account);
+        }
+        balances[account] += amount;
+        emit Deposit(account, amount);
+    }
+
     function balanceOf(address account) external view returns (uint256) {
         return balances[account];
     }
 
     function deposit() external payable zeroSenderAddress {
-        if (msg.value == 0) {
-            revert DepositingZeroAmount(msg.sender);
-        }
-        balances[msg.sender] += msg.value;
-        emit Deposit(msg.sender, msg.value);
+        _deposit(msg.sender, msg.value);
     }
 
     function withdraw(uint256 amount) external zeroSenderAddress {
@@ -48,4 +52,12 @@ contract Bank is INativeBank {
 
         emit Withdrawal(msg.sender, amount);
     }
+
+    receive() external payable { 
+        _deposit(msg.sender, msg.value);
+    }
+
+    fallback() external payable {
+        _deposit(msg.sender, msg.value);
+     }
 }
