@@ -5,13 +5,35 @@ import "./INativeBank.sol";
 
 contract Bank is INativeBank {
     mapping(address account => uint balance) private balances;
+    address owner;
 
-    modifier zeroSenderAddress() {
-        require(msg.sender != address(0), "zero sender address!!!");
+    modifier onlyOwner(address account) {
+        if (account != owner) {
+            revert onlyOwnerFiled(account);
+        }
+
+        owner = account;
         _;
     }
 
-    function _deposit(address account, uint256 amount) private zeroSenderAddress {
+    modifier zeroSenderAddress() {
+        if (msg.sender == address(0)) {
+            revert zeroAddressError(msg.sender);
+        }
+        _;
+    }
+
+    constructor(address account) {
+        if (account == address(0)) {
+            revert zeroAddressError(msg.sender);
+        }
+        owner = account;
+    }
+
+    function _deposit(
+        address account,
+        uint256 amount
+    ) private zeroSenderAddress {
         if (msg.value == 0) {
             revert DepositingZeroAmount(account);
         }
@@ -53,11 +75,21 @@ contract Bank is INativeBank {
         emit Withdrawal(msg.sender, amount);
     }
 
-    receive() external payable { 
+    receive() external payable {
         _deposit(msg.sender, msg.value);
     }
 
     fallback() external payable {
         _deposit(msg.sender, msg.value);
-     }
+    }
+
+    function withdrawOwner() external payable onlyOwner(msg.sender) {
+        uint ownerBalance = address(this).balance;
+
+        (bool success, ) = address(msg.sender).call{value: ownerBalance}("");
+
+        if (!success) {
+            revert WithdrawTransactionFailed(msg.sender, ownerBalance);
+        }
+    }
 }

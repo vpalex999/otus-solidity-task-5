@@ -7,15 +7,30 @@ pragma solidity 0.8.28;
  */
 interface INativeBank {
     /**
+     * @dev Генерируется, адреса == 0.
+     * @param account Адрес.
+     */
+
+    error zeroAddressError(address account);
+
+    /**
+     * @dev Генерируется, когда не прошла проверка адреса на держателя контракта.
+     * @param account Адрес.
+     */
+    error onlyOwnerFiled(address account);
+
+    /**
      * @dev Генерируется, когда не прошла транзакция снятия средств с депозита.
      * @param account Адрес получателя.
      * @param amount Сумма, которая была снята.
      */
     error WithdrawTransactionFailed(address account, uint256 amount);
+
     /**
      * @dev Генерируется, когда на счёт аккаунта поступает сумма депозита равная 0.
      * @param account Адрес аккаунта, на который ложится депозит.
      */
+
     error DepositingZeroAmount(address account);
     /**
      * @dev Генерируется, когда сумма снятия превышает баланс счёта.
@@ -23,8 +38,13 @@ interface INativeBank {
      * @param amount Сумма, которую пытались снять.
      * @param balance Текущий баланс аккаунта.
      */
-    error WithdrawalAmountExceedsBalance(address account, uint256 amount, uint256 balance);
-    
+
+    error WithdrawalAmountExceedsBalance(
+        address account,
+        uint256 amount,
+        uint256 balance
+    );
+
     /**
      * @dev Генерируется, когда пытаются снять нулевую сумму.
      * @param account Адрес аккаунта, который пытался снять средства.
@@ -37,7 +57,7 @@ interface INativeBank {
      * @param amount Сумма, которая была внесена.
      */
     event Deposit(address indexed account, uint256 amount);
-    
+
     /**
      * @dev Генерируется, когда со счёта снимаются средства.
      * @param account Адрес счёта, с которого произошло снятие.
@@ -50,13 +70,13 @@ interface INativeBank {
      * @param account Адрес счёта.
      * @return Баланс счёта.
      */
-    function balanceOf(address account) external view returns(uint256);
+    function balanceOf(address account) external view returns (uint256);
 
     /**
      * @dev Вносит средства на счёт.
      */
     function deposit() external payable;
-    
+
     /**
      * @dev Снимает средства со счёта.
      * @param amount Сумма, которую нужно снять.
