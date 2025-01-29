@@ -83,8 +83,22 @@ contract Bank is INativeBank {
         _deposit(msg.sender, msg.value);
     }
 
-    function withdrawOwner() external payable onlyOwner(msg.sender) {
+    function withdrawOwner(
+        uint256 amount
+    ) external payable onlyOwner(msg.sender) {
+        if (msg.value == 0) {
+            revert DepositingZeroAmount(msg.sender);
+        }
+
         uint ownerBalance = address(this).balance;
+
+        if (amount > ownerBalance) {
+            revert WithdrawalAmountExceedsBalance(
+                msg.sender,
+                amount,
+                ownerBalance
+            );
+        }
 
         (bool success, ) = address(msg.sender).call{value: ownerBalance}("");
 
