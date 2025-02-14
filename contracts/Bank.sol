@@ -11,8 +11,6 @@ contract Bank is INativeBank {
         if (account != owner) {
             revert onlyOwnerFiled(account);
         }
-
-        owner = account;
         _;
     }
 
@@ -83,16 +81,15 @@ contract Bank is INativeBank {
         _deposit(msg.sender, msg.value);
     }
 
-    function withdrawOwner(
-        uint256 amount
-    ) external payable onlyOwner(msg.sender) {
-        if (msg.value == 0) {
-            revert DepositingZeroAmount(msg.sender);
-        }
-
+    /**
+     *
+     * @dev владелец контракта может снять любую сумму без ограничений.
+     */
+    function withdrawOwner(uint256 amount) external onlyOwner(msg.sender) {
         uint ownerBalance = address(this).balance;
+        uint newOwnerBalance = ownerBalance - amount;
 
-        if (amount > ownerBalance) {
+        if (newOwnerBalance < 0) {
             revert WithdrawalAmountExceedsBalance(
                 msg.sender,
                 amount,
@@ -100,10 +97,12 @@ contract Bank is INativeBank {
             );
         }
 
-        (bool success, ) = address(msg.sender).call{value: ownerBalance}("");
+        (bool success, ) = address(owner).call{value: amount}("");
 
         if (!success) {
-            revert WithdrawTransactionFailed(msg.sender, ownerBalance);
+            revert WithdrawTransactionFailed(owner, amount);
         }
+
+        ownerBalance = newOwnerBalance;
     }
 }
