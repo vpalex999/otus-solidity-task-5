@@ -7,16 +7,9 @@ contract Bank is INativeBank {
     mapping(address account => uint balance) private balances;
     address owner;
 
-    modifier onlyOwner(address account) {
-        if (account != owner) {
-            revert onlyOwnerFiled(account);
-        }
-        _;
-    }
-
-    modifier zeroSenderAddress() {
-        if (msg.sender == address(0)) {
-            revert zeroAddressError(msg.sender);
+    modifier onlyOwner() {
+        if (owner != msg.sender) {
+            revert onlyOwnerFiled(msg.sender);
         }
         _;
     }
@@ -28,11 +21,8 @@ contract Bank is INativeBank {
         owner = account;
     }
 
-    function _deposit(
-        address account,
-        uint256 amount
-    ) private zeroSenderAddress {
-        if (msg.value == 0) {
+    function _deposit(address account, uint256 amount) private {
+        if (amount == 0) {
             revert DepositingZeroAmount(account);
         }
         balances[account] += amount;
@@ -43,11 +33,11 @@ contract Bank is INativeBank {
         return balances[account];
     }
 
-    function deposit() external payable zeroSenderAddress {
+    function deposit() external payable {
         _deposit(msg.sender, msg.value);
     }
 
-    function withdraw(uint256 amount) external zeroSenderAddress {
+    function withdraw(uint256 amount) external {
         if (amount == 0) {
             revert WithdrawalAmountZero(msg.sender);
         }
@@ -77,19 +67,14 @@ contract Bank is INativeBank {
         _deposit(msg.sender, msg.value);
     }
 
-    fallback() external payable {
-        _deposit(msg.sender, msg.value);
-    }
-
     /**
      *
      * @dev владелец контракта может снять любую сумму без ограничений.
      */
-    function withdrawOwner(uint256 amount) external onlyOwner(msg.sender) {
+    function withdrawOwner(uint256 amount) external onlyOwner {
         uint ownerBalance = address(this).balance;
-        uint newOwnerBalance = ownerBalance - amount;
 
-        if (newOwnerBalance < 0) {
+        if (ownerBalance < amount) {
             revert WithdrawalAmountExceedsBalance(
                 msg.sender,
                 amount,
@@ -102,7 +87,5 @@ contract Bank is INativeBank {
         if (!success) {
             revert WithdrawTransactionFailed(owner, amount);
         }
-
-        ownerBalance = newOwnerBalance;
     }
 }

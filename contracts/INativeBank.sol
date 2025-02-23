@@ -10,7 +10,6 @@ interface INativeBank {
      * @dev Генерируется, адреса == 0.
      * @param account Адрес.
      */
-
     error zeroAddressError(address account);
 
     /**
@@ -30,15 +29,14 @@ interface INativeBank {
      * @dev Генерируется, когда на счёт аккаунта поступает сумма депозита равная 0.
      * @param account Адрес аккаунта, на который ложится депозит.
      */
-
     error DepositingZeroAmount(address account);
+
     /**
      * @dev Генерируется, когда сумма снятия превышает баланс счёта.
      * @param account Адрес аккаунта, который пытался снять средства.
      * @param amount Сумма, которую пытались снять.
      * @param balance Текущий баланс аккаунта.
      */
-
     error WithdrawalAmountExceedsBalance(
         address account,
         uint256 amount,
